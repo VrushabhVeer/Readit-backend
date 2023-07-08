@@ -17,7 +17,7 @@ blogsRouter.get("/myblogs", authentication, async (req, res) => {
 
 //post
 blogsRouter.post("/create", authentication, async (req, res) => {
-  const { title, image, intro, description, date, userId } = req.body;
+  const { title, image, intro, description, date, userId, userName } = req.body;
   const blog = new BlogsModel({
     title,
     image,
@@ -25,6 +25,7 @@ blogsRouter.post("/create", authentication, async (req, res) => {
     description,
     date,
     userId,
+    userName,
   });
   await blog.save();
   res.send(blog);
