@@ -9,6 +9,12 @@ blogsRouter.get("/", async (req, res) => {
   res.send(result);
 });
 
+//get single
+blogsRouter.get("/:blogID", async (req, res) => {
+  const result = await BlogsModel.findOne({ _id: req.params.blogID });
+  res.send(result);
+});
+
 //get by registred user
 blogsRouter.get("/myblogs", authentication, async (req, res) => {
   const result = await BlogsModel.find({ userId: req.body.userId });
