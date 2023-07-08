@@ -7,7 +7,6 @@ require("dotenv").config();
 
 const key = process.env.SECRET_KEY;
 
-
 // sign up
 userRouter.post("/signup", async (req, res) => {
   const { name, email, password } = req.body;
@@ -30,14 +29,14 @@ userRouter.post("/signup", async (req, res) => {
   }
 });
 
-// login
 
+// login
 userRouter.post("/login", async (req, res) => {
   const { email, password } = req.body;
 
   const user = await UserModel.findOne({ email });
   const userId = user._id;
-
+  const userName = user.name;
   const hash = user.password;
 
   bcrypt.compare(password, hash, async function (err, result) {
@@ -45,8 +44,8 @@ userRouter.post("/login", async (req, res) => {
       res.send({ msg: "Something went wrong, please try again" });
     }
     if (result) {
-      const token = jwt.sign({ userId }, key);
-      res.send({ msg: "Login sussessful", token: token });
+      const token = jwt.sign({ userId, userName }, key);
+      res.send({ msg: "Login sussessful", token: token, userName });
     } else {
       res.send({ msg: "Login failed" });
     }
