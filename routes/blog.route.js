@@ -5,36 +5,53 @@ const blogsRouter = Router();
 
 //get all
 blogsRouter.get("/", async (req, res) => {
-  const result = await BlogsModel.find();
-  res.send(result);
+  try {
+    const result = await BlogsModel.find();
+    res.send(result);
+  } catch (error) {
+    res.send(error);
+  }
 });
 
 //get single
 blogsRouter.get("/:blogID", async (req, res) => {
-  const result = await BlogsModel.findOne({ _id: req.params.blogID });
-  res.send(result);
+  try {
+    const result = await BlogsModel.findOne({ _id: req.params.blogID });
+    res.send(result);
+  } catch (error) {
+    res.send(error);
+  }
 });
 
 //get by registred user
-blogsRouter.get("/myblogs", authentication, async (req, res) => {
-  const result = await BlogsModel.find({ userId: req.body.userId });
-  res.send(result);
+blogsRouter.get("/myblogs/:userId", authentication, async (req, res) => {
+  try {
+    const result = await BlogsModel.find({ userId: req.params.userId });
+    res.send(result);
+  } catch (error) {
+    res.send(error);
+  }
 });
 
 //post
 blogsRouter.post("/create", authentication, async (req, res) => {
-  const { title, image, intro, description, date, userId, userName } = req.body;
-  const blog = new BlogsModel({
-    title,
-    image,
-    intro,
-    description,
-    date,
-    userId,
-    userName,
-  });
-  await blog.save();
-  res.send(blog);
+  try {
+    const { title, image, intro, description, date, userId, userName } =
+      req.body;
+    const blog = new BlogsModel({
+      title,
+      image,
+      intro,
+      description,
+      date,
+      userId,
+      userName,
+    });
+    await blog.save();
+    res.send(blog);
+  } catch (error) {
+    res.send(error);
+  }
 });
 
 //delete
