@@ -45,23 +45,13 @@ userRouter.post("/login", async (req, res) => {
     }
     if (result) {
       const token = jwt.sign({ userId, userName }, key);
-      res.cookie("userName", userName);
-      res.cookie("userId", userId);
-      res.cookie("token", token);
-      res.send({ msg: "Login sussessful", token: token, userName });
+      res.send({ msg: "Login sussessful", token: token, userName, userId });
     } else {
       res.send({ msg: "Login failed" });
     }
   });
 });
 
-userRouter.get("/logout", async (req, res) => {
-  res.clearCookie("userName");
-  res.clearCookie("userId");
-  res.clearCookie("token");
-  res.send("Logout Successful");
-});
-
 module.exports = {
-  userRouter,
+  userRouter,
 };
